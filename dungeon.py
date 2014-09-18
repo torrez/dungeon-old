@@ -33,6 +33,8 @@ class DungeonApplication(tornado.web.Application):
         debug = False
         if environment == cls.DEVELOPMENT:
             debug = True
+            from tornado.log import enable_pretty_logging
+            enable_pretty_logging()
         return {
             "login_url": "/sign-in",  # unecessary
             "static_path": os.path.join(dirname, "static"),
@@ -50,6 +52,8 @@ def make_application(environment=DungeonApplication.DEVELOPMENT):
 
     app = DungeonApplication([
         (r"/", home.IndexHandler),
+        (r"/rsd", home.RSDHandler),
+        (r"/service/wordpress", home.ServiceWordpressHandler),
     ], **app_settings)
 
     return app
